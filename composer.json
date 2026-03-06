@@ -1,0 +1,19 @@
+{
+  "name": "amdeu/typo3-locallang-formats",
+  "type": "typo3-cms-extension",
+  "description": "Alternative locallang formats",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "typo3/cms-core": "^13.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Amdeu\\LocallangFormats\\": "Classes/"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "locallang_formats"
+    }
+  }
+}
