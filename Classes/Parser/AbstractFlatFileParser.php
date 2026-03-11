@@ -50,12 +50,12 @@ abstract class AbstractFlatFileParser implements LocalizationParserInterface
 	}
 
 	/**
-	 * aken from @see AbstractXmlParser
+	 * taken from @see AbstractXmlParser
 	 *
 	 * @param string $sourcePath Source file path
 	 * @param string $languageKey Language key
 	 * @return array
-	 * @throws \TYPO3\CMS\Core\Localization\Exception\FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	public function getParsedData($sourcePath, $languageKey)
 	{
@@ -68,7 +68,7 @@ abstract class AbstractFlatFileParser implements LocalizationParserInterface
 	 * @param string $sourcePath Source file path
 	 * @param string $languageKey Language key
 	 * @return array
-	 * @throws \TYPO3\CMS\Core\Localization\Exception\FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	protected function _getParsedData($sourcePath, $languageKey, ?string $labelsPath)
 	{

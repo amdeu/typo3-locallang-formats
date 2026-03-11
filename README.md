@@ -4,12 +4,12 @@ Author your TYPO3 translation labels in YAML, JSON, or PHP arrays instead of XLF
 
 ## Requirements
 
-- TYPO3 13.x
+- TYPO3 13.4 or later
 
 ## Installation
 
 ```bash
-composer require amdeu/locallang-formats
+composer require amdeu/typo3-locallang-formats
 ```
 
 No further configuration needed in consuming extensions. Once installed, TYPO3
