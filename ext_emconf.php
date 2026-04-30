@@ -2,14 +2,14 @@
 
 $EM_CONF[$_EXTKEY] = [
 	'title' => 'Alternative locallang formats',
-	'description' => 'Use alternative file formats like yaml and json for locallang files',
-	'category' => 'be',
+	'description' => "Registers Symfony's built-in translation loaders for TYPO3 locallang files, enabling YAML, JSON, PHP, INI, CSV, and PO formats as alternatives to XLF",
+	'category' => 'misc',
 	'author' => 'Amadeus Kiener',
 	'state' => 'stable',
-	'version' => '1.0.1',
+	'version' => '2.0.0',
 	'constraints' => [
 		'depends' => [
-			'typo3' => '13.4.0-13.99.99',
+			'typo3' => '14.3.0-14.3.99',
 		],
 		'conflicts' => [],
 	],

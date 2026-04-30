@@ -1,10 +1,10 @@
 {
   "name": "amdeu/typo3-locallang-formats",
   "type": "typo3-cms-extension",
-  "description": "Use alternative file formats like yaml and json for locallang files",
+  "description": "Alternative locallang formats - Registers Symfony's built-in translation loaders for TYPO3 locallang files, enabling YAML, JSON, PHP, INI, CSV, and PO formats as alternatives to XLF",
   "license": "GPL-2.0-or-later",
   "require": {
-    "typo3/cms-core": "^13.4"
+    "typo3/cms-core": "^14.3"
   },
   "autoload": {
     "psr-4": {

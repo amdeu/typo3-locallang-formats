@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
-use Amdeu\LocallangFormats\Parser;
+use Symfony\Component\Translation\Loader;
 
 defined('TYPO3') or die();
 
-// Register alternative language file formats.
-// Priority order: xlf first, then yaml, json, php.
-// XLF takes precedence so existing extensions are never affected.
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['lang']['format']['priority'] = 'xlf,yaml,json,php';
+// Register loaders
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['yaml'] ??= Loader\YamlFileLoader::class;
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['yml']  ??= Loader\YamlFileLoader::class;
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['json'] ??= Loader\JsonFileLoader::class;
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['php']  ??= Loader\PhpFileLoader::class;
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['ini']  ??= Loader\IniFileLoader::class;
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['csv']  ??= Loader\CsvFileLoader::class;
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['po']   ??= Loader\PoFileLoader::class;
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['lang']['parser']['yaml'] = Parser\YamlFileParser::class;
-
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['lang']['parser']['json'] = Parser\JsonFileParser::class;
-
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['lang']['parser']['php'] = Parser\PhpFileParser::class;
+// Priority: xlf first so existing extensions are unaffected
+if (!isset($GLOBALS['TYPO3_CONF_VARS']['LANG']['format']['priority'])) {
+	$GLOBALS['TYPO3_CONF_VARS']['LANG']['format']['priority'] = 'xlf,yaml,yml,json,php,ini,csv,po';
+}

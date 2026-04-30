@@ -1,149 +1,72 @@
-# locallang_formats — Alternative translation file formats for TYPO3
+# typo3-locallang-formats
 
-Author your TYPO3 translation labels in YAML, JSON, or PHP arrays instead of XLF.
+Registers Symfony's built-in translation loaders for TYPO3 locallang files,
+enabling **YAML, JSON, PHP, INI, CSV, and PO** as alternatives to XLF.
 
 ## Requirements
 
-- TYPO3 13.4 or later
+TYPO3 14.3 or later
 
 ## Installation
 
-```bash
+```
 composer require amdeu/typo3-locallang-formats
 ```
 
-No further configuration needed in consuming extensions. Once installed, TYPO3
-will pick up `.yaml`, `.json`, and `.php` files in any extension's
-`Resources/Private/Language/` folder.
+## How it works
 
-## File format priority
+TYPO3 v14 uses the [Symfony Translation component](https://symfony.com/doc/current/translation.html)
+internally. This extension registers Symfony's built-in file loaders for additional
+formats via `$GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']`. No custom parser code —
+just wiring.
 
-The default priority order is `xlf → yaml → json → php`. XLF is always checked
-first so existing extensions are completely unaffected.
+XLF is always checked first (TYPO3 core default), so existing extensions are unaffected.
 
-To change the priority globally (e.g. to prefer YAML over XLF in your project),
-change the `priority` setting in `TYPO3_CONF_VARS`:
+## Usage
 
-```php
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['lang']['format']['priority'] = 'yaml,xlf,json,php';
+Identical to XLF — use the file's actual extension in the path:
+
+```
+<f:translate key="LLL:EXT:my_ext/Resources/Private/Language/locallang.yaml:my.key" />
 ```
 
----
-
-## YAML
-
-```yaml
-# locallang.yaml
-header_comment: The default Header Comment.
-
-login:
-  title: Please log in
-  submit: Submit
-  errors:
-    invalid: Invalid credentials
-```
-
-Translation file (`de.locallang.yaml`):
-
-```yaml
-header_comment: Der Standard-Header-Kommentar.
-
-login:
-  title: Bitte einloggen
-  submit: Absenden
-  errors:
-    invalid: Ungültige Anmeldedaten
-```
-
----
-
-## JSON
-
-```json
-{
-    "header_comment": "The default Header Comment.",
-    "login": {
-        "title": "Please log in",
-        "submit": "Submit",
-        "errors": {
-            "invalid": "Invalid credentials"
-        }
-    }
-}
-```
-
-Translation file (`de.locallang.json`):
-
-```json
-{
-    "header_comment": "Der Standard-Header-Kommentar.",
-    "login": {
-        "title": "Bitte einloggen",
-        "submit": "Absenden"
-    }
-}
-```
-
----
-
-## PHP arrays
-
-```php
-<?php
-// locallang.php
-return [
-    'header_comment' => 'The default Header Comment.',
-    'login' => [
-        'title' => 'Please log in',
-        'submit' => 'Submit',
-        'errors' => [
-            'invalid' => 'Invalid credentials',
-        ],
-    ],
-];
-```
-
-Translation file (`de.locallang.php`):
-
-```php
-<?php
-// de.locallang.php
-return [
-    'header_comment' => 'Der Standard-Header-Kommentar.',
-    'login' => [
-        'title' => 'Bitte einloggen',
-        'submit' => 'Absenden',
-    ],
-];
-```
-
----
-
-## Multi-language files
-
-All formats follow the same naming convention as XLF:
+Follow TYPO3's locallang file naming convention, 
+translations prefixed with the locale:
 
 ```
 Resources/Private/Language/
-    locallang.yaml          ← default language (English)
-    de.locallang.yaml       ← German
-    fr.locallang.yaml       ← French
-    locallang_be.yaml       ← additional files work the same way
+    locallang.yaml        ← default (English)
+    de.locallang.yaml     ← German
+    fr.locallang.yaml     ← French
 ```
 
----
+Nested keys are flattened with dot notation by Symfony's loaders:
 
-## Usage in templates and PHP
-
-Identical to XLF — just use the file's actual extension in the path:
-
-```html
-<f:translate key="LLL:EXT:my_ext/Resources/Private/Language/locallang.yaml:login.title" />
+```yaml
+# locallang.yaml
+login:
+  title: Please log in
+  submit: Submit
 ```
+
+is referenced as `login.title`, `login.submit`.
+
+## Supported formats
+
+| Extension     | Format                                                                                                    |
+|---------------|-----------------------------------------------------------------------------------------------------------|
+| `yaml`, `yml` | YAML                                                                                                      |
+| `json`        | JSON                                                                                                      |
+| `php`         | PHP file returning an array                                                                               |
+| `ini`         | INI key=value                                                                                             |
+| `csv`         | CSV (`key,translation`)                                                                                   |
+| `po`          | [Gettext PO](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html) — uses `msgid`/`msgstr` |
+
+## Changing format priority
+
+By default the order is `xlf, yaml, yml, json, php, ini, csv, po`.
+To override, set:
 
 ```php
-LocalizationUtility::translate(
-    'LLL:EXT:my_ext/Resources/Private/Language/locallang.yaml:login.title',
-    'MyExt'
-);
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['format']['priority'] = 'yaml,xlf,json,php,ini,csv,po';
 ```
