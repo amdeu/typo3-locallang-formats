@@ -16,6 +16,4 @@ $GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['csv']  ??= Loader\CsvFileLoader::
 $GLOBALS['TYPO3_CONF_VARS']['LANG']['loader']['po']   ??= Loader\PoFileLoader::class;
 
 // Priority: xlf first so existing extensions are unaffected
-if (!isset($GLOBALS['TYPO3_CONF_VARS']['LANG']['format']['priority'])) {
-	$GLOBALS['TYPO3_CONF_VARS']['LANG']['format']['priority'] = 'xlf,yaml,yml,json,php,ini,csv,po';
-}
+$GLOBALS['TYPO3_CONF_VARS']['LANG']['format']['priority'] = 'xlf,yaml,yml,json,php,ini,csv,po';
